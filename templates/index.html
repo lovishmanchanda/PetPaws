@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    body{
+        padding: 0px;
+    }
+    /* 🌟 Global Styling */
+body {
+    background: #f9f9f9;
+    padding: 0px;
+}
+
+
+
+/* 🐶 Featured Pets Grid */
+.featured-pets-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    max-width: 300px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.pet-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff6b6b;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+
+
+/* 💬 Testimonial Carousel */
+.testimonial-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 4px solid #ff9a9e;
+}
+
+
+
+</style>
+
+<!-- Hero Section -->
+<header class="hero">
+    <div class="container text-center">
+        <h1 class="hero-title">
+            Adopt Love, <br> Foster Happiness
+        </h1>
+        <p class="lead hero-subtext">Every pet deserves a loving home. Start your journey today!</p>
+
+        <a href="/pets" class="btn btn-primary">Find Your Pet</a>
+        <a href="{{ url_for('add_pet') }}" class="btn btn-outline-light">Rehome a Pet</a>
+    </div>
+</header>
+
+
+
+
+
+
+<!-- About Us Section -->
+<section class="container my-5 about-section">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='images/about-pets.webp') }}" class="img-fluid rounded" alt="Happy Pets">
+        </div>
+        <div class="col-md-6">
+            <h2>About PetPaw</h2>
+            <p>PetPaw is dedicated to connecting loving homes with pets in need. Our mission is to make pet adoption and rehoming easy, safe, and reliable.</p>
+            <ul>
+                <li>✔️ Verified Listings</li>
+                <li>✔️ Secure Adoption Process</li>
+                <li>✔️ Community Support</li>
+            </ul>
+            <a href="/about" class="btn btn-primary">Learn More</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- Featured Pets Section -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Featured Pets</h2>
+
+    <!-- Pet Grid -->
+    <div class="featured-pets-grid mt-5">
+        <div class="card">
+            <span class="pet-badge">New Arrival</span>
+            <img src="{{ url_for('static', filename='images/dog2.jpeg') }}" alt="Dog 2">
+            <div class="card-body text-center">
+                <h5 class="card-title">Charlie</h5>
+                <p class="card-text">A playful Labrador looking for a home.</p>
+                <a href="/pet/2" class="btn btn-primary">View Profile</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <span class="pet-badge">Adopted</span>
+            <img src="{{ url_for('static', filename='images/cat2.jpg') }}" alt="Cat 2">
+            <div class="card-body text-center">
+                <h5 class="card-title">Mittens</h5>
+                <p class="card-text">A loving Siamese cat ready to cuddle.</p>
+                <a href="/pet/3" class="btn btn-primary">View Profile</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <span class="pet-badge">New Arrival</span>
+            <img src="{{ url_for('static', filename='images/rabbit2.jpg') }}" alt="Rabbit 2">
+            <div class="card-body text-center">
+                <h5 class="card-title">BunBun</h5>
+                <p class="card-text">A fluffy rabbit looking for a cozy home.</p>
+                <a href="/pet/4" class="btn btn-primary">View Profile</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- How It Works -->
+<section class="how-it-works">
+    <h2 class="text-center">How Adoption Works</h2>
+    <div class="row text-center">
+        <div class="col-md-3">
+            <i class="fas fa-search fa-3x text-primary"></i>
+            <h3>1. Browse Pets</h3>
+            <p>Search by type, age, breed, and more.</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-file-alt fa-3x text-warning"></i>
+            <h3>2. Submit Request</h3>
+            <p>Fill out an adoption form.</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-handshake fa-3x text-success"></i>
+            <h3>3. Meet & Greet</h3>
+            <p>Schedule a visit with the pet.</p>
+        </div>
+        <div class="col-md-3">
+            <i class="fas fa-home fa-3x text-danger"></i>
+            <h3>4. Bring Home</h3>
+            <p>Complete the process and adopt your pet!</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- Testimonials -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">Success Stories</h2>
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <!-- Testimonial 1 -->
+            <div class="carousel-item active">
+                <div class="testimonial-card">
+                    <img src="{{ url_for('static', filename='images/testimonial1.jpg') }}" class="testimonial-img" alt="Sarah & Luna">
+                    <p class="testimonial-text">"Adopting Luna was the best decision ever! Thank you, PetPaw!"</p>
+                    <h5>- Sarah & Luna</h5>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="carousel-item">
+                <div class="testimonial-card">
+                    <img src="{{ url_for('static', filename='images/testimonial2.jpg') }}" class="testimonial-img" alt="Jake & Max">
+                    <p class="testimonial-text">"Max is now a part of our family. So grateful!"</p>
+                    <h5>- Jake & Max</h5>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="carousel-item">
+                <div class="testimonial-card">
+                    <img src="{{ url_for('static', filename='images/testimonial3.jpg') }}" class="testimonial-img" alt="Emily & Bella">
+                    <p class="testimonial-text">"Bella brings so much joy into our home. Highly recommend PetPaw!"</p>
+                    <h5>- Emily & Bella</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <a class="carousel-control-prev" href="#testimonialCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#testimonialCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </a>
+    </div>
+</section>
+
+
+<!-- Pet Care Section -->
+<section class="pet-care">
+    <div class="container">
+        <h3 class="section-title text-center">Pet Care Tips</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="tip-card">
+                    <i class="fas fa-bowl-food fa-3x tip-icon"></i>
+                    <h4>Feeding Your Pet</h4>
+                    <p>Learn the best practices for feeding your pet to ensure they stay healthy and happy.</p>
+                    <a href="/blog/feeding-tips" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="tip-card">
+                    <i class="fas fa-dumbbell fa-3x tip-icon"></i>
+                    <h4>Exercise and Play</h4>
+                    <p>Find out how much exercise your pet needs and fun ways to keep them active.</p>
+                    <a href="/blog/exercise-play-tips" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="tip-card">
+                    <i class="fas fa-scissors fa-3x tip-icon"></i>
+                    <h4>Grooming and Hygiene</h4>
+                    <p>Discover essential grooming practices to keep your pet looking and feeling great.</p>
+                    <a href="/blog/grooming-tips" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='petstyles.css') }}">
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Pet Image Section -->
+        <div class="col-lg-6 text-center">
+            <img src="{{ url_for('static', filename='images/' + pet.image_filename) }}" class="img-fluid rounded shadow-lg pet-profile-img" alt="{{ pet.name }}">
+        </div>
+
+        <!-- Pet Details Section -->
+        <div class="col-lg-6">
+            <h2 class="fw-bold text-primary">{{ pet.name }}</h2>
+            <p class="text-muted"><i class="fas fa-paw"></i> <strong>Breed:</strong> {{ pet.breed }}</p>
+            <p><i class="fas fa-birthday-cake"></i> <strong>Age:</strong> {{ pet.age }} years</p>
+            <p><i class="fas fa-user"></i> <strong>Owner:</strong> {{ pet.owner.name }}</p>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ pet.address }}</p>
+            <p><i class="fas fa-notes-medical"></i> <strong>Medical Issues:</strong> {{ pet.medical_issues if pet.medical_issues else "None" }}</p>
+            <p><i class="fas fa-info-circle"></i> <strong>Description:</strong> {{ pet.description }}</p>
+
+            <!-- Pet Status Badge -->
+            <p><strong>Status:</strong> 
+                <span class="badge {% if pet.status == 'Available' %} bg-success {% else %} bg-secondary {% endif %}">
+                    {{ pet.status }}
+                </span>
+            </p>
+
+            <!-- Owner Actions -->
+            {% if current_user.id == pet.owner_id %}
+                <div class="mt-3">
+                    <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                    <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this pet?');">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                </div>
+            {% else %}
+                <!-- Non-owner Actions -->
+                <div class="mt-3">
+                    <form action="{{ url_for('adopt_pet', id=pet.id) }}" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-heart"></i> Adopt</button>
+                    </form>
+                    <a href="{{ url_for('add_to_wishlist', pet_id=pet.id) }}" class="btn btn-outline-info">
+                        <i class="fas fa-star"></i> Add to Wishlist
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

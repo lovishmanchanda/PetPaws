@@ -1,0 +1,108 @@
+/* Pets Page Styling */
+.pets-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px 20px;
+    justify-content: center;
+}
+
+/* Pet Card Styling */
+.pet-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    position: relative;
+}
+
+.pet-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Pet Image */
+.pet-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+}
+
+/* Card Body */
+.pet-card .card-body {
+    padding: 15px;
+    text-align: center;
+}
+
+/* Pet Name */
+.pet-card h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Pet Details */
+.pet-card p {
+    font-size: 1rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+/* Button Group */
+.button-group {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Primary Button */
+.pet-card .btn-primary {
+    background-color: #34efdf;
+    border: none;
+    padding: 8px 15px;
+    font-size: 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.pet-card .btn-primary:hover {
+    background-color: #2ac3b3;
+    transform: scale(1.05);
+}
+
+/* Wishlist Button */
+.pet-card .btn-outline-danger {
+    border: 2px solid #ff6b6b;
+    color: #ff6b6b;
+    background: transparent;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.pet-card .btn-outline-danger:hover {
+    background-color: #ff6b6b;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .pets-container {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .pet-card img {
+        height: 220px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 5px;
+    }
+}

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+{% block content %}
+<style>
+    /* 🌟 Main Background */
+    body {
+        background-color: #f8f9fa; /* Light grey background for subtle contrast */
+    }
+
+    /* 🎨 About Section Styling */
+    .about-section {
+        padding: 60px 20px;
+        background: white; /* Clean white box */
+        text-align: center;
+        color: #333;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        margin: 50px auto;
+        max-width: 90%;
+    }
+
+    .about-section h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #007bff; /* Blue color for heading */
+    }
+
+    .about-section p {
+        color: #555;
+    }
+
+    /* 🌟 Adoption Story Container */
+    .adoption-stories {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    /* 🌟 Testimonial Box */
+    .testimonial {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        max-width: 300px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+        border-left: 5px solid #007bff;
+    }
+
+    .testimonial:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ✨ Testimonial Quote Styling */
+    .testimonial p {
+        font-size: 1rem;
+        color: #333;
+        font-style: italic;
+        margin-top: 10px;
+    }
+
+    .testimonial strong {
+        color: #007bff;
+    }
+
+    /* 🌟 About Title */
+    .about-title {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #343a40;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative;
+        text-align: center;
+    }
+
+    /* 🎨 Underline Effect */
+    .about-title::after {
+        content: '';
+        width: 120px;
+        height: 4px;
+        background: #007bff;
+        display: block;
+        margin: 10px auto;
+        border-radius: 5px;
+    }
+
+    /* 🌟 Values Section */
+    .values-section {
+        background: #e3f2fd; /* Soft blue background */
+        padding: 50px 20px;
+        border-radius: 15px;
+        text-align: center;
+        color: #333;
+        margin-top: 40px;
+    }
+
+    .values-section i {
+        margin-bottom: 10px;
+        color: #007bff;
+    }
+
+    .values-section h4 {
+        color: #0056b3;
+    }
+
+    /* 🌟 CTA Buttons */
+    .cta-buttons a {
+        margin: 10px;
+    }
+
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center about-title">About PetPaws</h1>
+    <p class="text-center text-muted">Welcome to <strong>PetPaws</strong>! Our mission is to connect loving homes with pets in need.</p>
+
+    <div class="about-section">
+        <h2>Our Story</h2>
+        <p>PetPaws was founded with the vision of ensuring every pet finds a forever home. We believe in making the pet adoption process seamless and filled with love.</p>
+    </div>
+
+    <div class="values-section">
+        <h2>Our Values</h2>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <i class="fas fa-heart fa-3x"></i>
+                <h4>Compassion</h4>
+                <p>Every pet deserves love and care.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-paw fa-3x"></i>
+                <h4>Commitment</h4>
+                <p>We ensure responsible and ethical adoptions.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-home fa-3x"></i>
+                <h4>Community</h4>
+                <p>Connecting adopters with shelters and volunteers.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2>🐾 Happy Adoption Stories</h2>
+        <div class="adoption-stories">
+            <div class="testimonial">
+                <p><strong>"Bella changed our lives! Thank you, PetPaws!"</strong> <br>– Sachin Malhotra.</p>
+            </div>
+            <div class="testimonial">
+                <p><strong>"The best adoption experience ever!"</strong> <br>– Raghav Kumar.</p>
+            </div>
+            <div class="testimonial">
+                <p><strong>"Found my best friend thanks to PetPaws!"</strong> <br>– Kartikey Gupta.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section text-center">
+        <h2>Join Us in Making a Difference</h2>
+        <p>Want to help? Browse pets ready for adoption or volunteer with us!</p>
+        <div class="cta-buttons">
+            <a href="/pets" class="btn btn-primary"><i class="fas fa-search"></i> Browse Pets</a>
+            <a href="/contact" class="btn btn-outline-success"><i class="fas fa-handshake"></i> Become a Volunteer</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

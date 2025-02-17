@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Admin Dashboard</h2>
+    <p class="text-center">Welcome, {{ current_user.name }}! Manage users, pets, and settings here.</p>
+
+    <div class="row text-center">
+        <div class="col-md-4">
+            <a href="{{ url_for('manage_users') }}" class="btn btn-primary btn-lg">Manage Users</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('manage_pets') }}" class="btn btn-warning btn-lg">Manage Pets</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('index') }}" class="btn btn-success btn-lg">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

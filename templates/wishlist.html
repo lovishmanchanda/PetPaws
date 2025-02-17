@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4 wishlist-title">🐾 My Wishlist 🐾</h2>
+    {% if pets %}
+        <div class="row justify-content-center">
+            {% for pet in pets %}
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card pet-card shadow-lg">
+                        <img src="{{ url_for('static', filename='images/' + (pet.image_filename if pet.image_filename else 'default.jpg')) }}" 
+                             class="card-img-top pet-image" alt="Pet Image">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ pet.name }}</h5>
+                            <p class="card-text">{{ pet.breed }} - {{ pet.age }} years old</p>
+                            <a href="{{ url_for('remove_from_wishlist', pet_id=pet.id) }}" class="btn btn-danger btn-remove">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">No pets in your wishlist yet. Start adding some furry friends! 🐶🐱</p>
+    {% endif %}
+</div>
+
+<style>
+    .wishlist-title {
+        font-family: 'Pacifico', cursive;
+        font-size: 2.5rem;
+        color: #ff5733;
+    }
+    .pet-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    .pet-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    .pet-image {
+        height: 250px;
+        object-fit: cover;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+    .btn-remove {
+        transition: background-color 0.3s ease-in-out;
+    }
+    .btn-remove:hover {
+        background-color: #c82333;
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='petstyles.css') }}">
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">🐾 Meet Your New Best Friend! 🐾</h2>
+    <p class="text-center text-muted">Browse through our lovely pets and give them a forever home. ❤️</p>
+
+    <!-- Pets Grid -->
+    <div class="pets-container">
+        {% for pet in pets %}
+        <div class="pet-card">
+            <img src="{{ url_for('static', filename='images/' + pet.image_filename) }}" alt="{{ pet.name }}">
+            <div class="card-body">
+                <h5 class="pet-name">{{ pet.name }}</h5>
+                <p><strong>Breed:</strong> {{ pet.breed }}</p>
+                <p><strong>Age:</strong> {{ pet.age }} years</p>
+                <p><strong>Owner:</strong> {{ pet.owner.name }}</p>
+                
+                <div class="button-group">
+                    <a href="{{ url_for('pet_profile', id=pet.id) }}" class="btn btn-primary">View Profile</a>
+                    <a href="{{ url_for('add_to_wishlist', pet_id=pet.id) }}" class="btn btn-outline-danger">
+                        <i class="fas fa-heart"></i> Wishlist
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

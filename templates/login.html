@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+ body {
+    background: url("{{ url_for('static', filename='images/login_bck.jpg') }}") no-repeat center center fixed;
+    background-size: 100% auto; /* Keeps full width while adjusting height */
+
+}
+
+.login-container {
+   
+    display: flex;
+    justify-content: flex-start; /* Moves it more to the left */
+    align-items: center;
+    min-height: 80vh;
+    padding-left: 20%; /* Adjust based on positioning */
+}
+
+    
+.card {
+    background: rgba(247, 247, 247, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    height: 400px ;
+    width: 400px;  /* Adjust width if needed */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+<div class="container login-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h2 class="text-center">Login</h2>
+
+                
+
+                <form action="{{ url_for('login') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+
+                <p class="mt-3 text-center">
+                    Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

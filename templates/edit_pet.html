@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-warning mb-4"><i class="fas fa-edit"></i> Edit Pet Details</h2>
+
+        <form method="POST" action="{{ url_for('edit_pet', id=pet.id) }}" enctype="multipart/form-data">
+            <div class="row">
+                <!-- Pet Name -->
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label"><i class="fas fa-paw"></i> Pet Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ pet.name }}" required>
+                </div>
+
+                <!-- Breed -->
+                <div class="col-md-6 mb-3">
+                    <label for="breed" class="form-label"><i class="fas fa-dna"></i> Breed</label>
+                    <input type="text" class="form-control" id="breed" name="breed" value="{{ pet.breed }}" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Age -->
+                <div class="col-md-4 mb-3">
+                    <label for="age" class="form-label"><i class="fas fa-calendar-alt"></i> Age</label>
+                    <input type="number" class="form-control" id="age" name="age" value="{{ pet.age }}" required>
+                </div>
+
+                <!-- Pet Type -->
+                <div class="col-md-4 mb-3">
+                    <label for="pet_type" class="form-label"><i class="fas fa-dog"></i> Pet Type</label>
+                    <select class="form-select" id="pet_type" name="pet_type" required onchange="toggleOtherType()">
+                        <option value="Dog" {% if pet.pet_type == 'Dog' %}selected{% endif %}>Dog</option>
+                        <option value="Cat" {% if pet.pet_type == 'Cat' %}selected{% endif %}>Cat</option>
+                        <option value="Bird" {% if pet.pet_type == 'Bird' %}selected{% endif %}>Bird</option>
+                        <option value="Horse" {% if pet.pet_type == 'Horse' %}selected{% endif %}>Horse</option>
+                        <option value="Other" {% if pet.pet_type == 'Other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+
+                <!-- Other Pet Type (Hidden by Default) -->
+                <div class="col-md-4 mb-3" id="other_pet_type_container" style="display: none;">
+                    <label for="other_pet_type" class="form-label"><i class="fas fa-question-circle"></i> Specify Pet Type</label>
+                    <input type="text" class="form-control" id="other_pet_type" name="other_pet_type" value="{{ pet.other_pet_type }}">
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label for="description" class="form-label"><i class="fas fa-align-left"></i> Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3">{{ pet.description }}</textarea>
+            </div>
+
+            <div class="row">
+                <!-- Medical Issues -->
+                <div class="col-md-6 mb-3">
+                    <label for="medical_issues" class="form-label"><i class="fas fa-notes-medical"></i> Medical Issues</label>
+                    <select class="form-select" id="medical_issues" name="medical_issues">
+                        <option value="None" {% if pet.medical_issues == 'None' %}selected{% endif %}>None</option>
+                        <option value="Yes" {% if pet.medical_issues == 'Yes' %}selected{% endif %}>Yes</option>
+                    </select>
+                </div>
+
+                <!-- Address -->
+                <div class="col-md-6 mb-3">
+                    <label for="address" class="form-label"><i class="fas fa-map-marker-alt"></i> Pet's Location</label>
+                    <input type="text" class="form-control" id="address" name="address" value="{{ pet.address }}" required>
+                </div>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3">
+                    <label for="image" class="form-label"><i class="fas fa-camera"></i> Upload New Image</label>
+                    <input type="file" class="form-control" id="image" name="image" onchange="previewImage(event)">
+                </div>
+
+                <!-- Current Image Preview -->
+                <div class="col-md-6 text-center">
+                    <label class="form-label d-block">Current Image:</label>
+                    <img id="imagePreview" src="{{ url_for('static', filename='images/' + pet.image_filename) }}" 
+                         class="rounded shadow-sm border" alt="Current Pet Image" width="150">
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-warning px-4"><i class="fas fa-save"></i> Update Pet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JS for Toggle Other Type & Image Preview -->
+<script>
+    function toggleOtherType() {
+        var petType = document.getElementById("pet_type").value;
+        var otherTypeContainer = document.getElementById("other_pet_type_container");
+        otherTypeContainer.style.display = (petType === "Other") ? "block" : "none";
+    }
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var imgPreview = document.getElementById("imagePreview");
+            imgPreview.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Ensure "Other" field is visible if already selected
+    window.onload = function () {
+        toggleOtherType();
+    };
+</script>
+
+{% endblock %}

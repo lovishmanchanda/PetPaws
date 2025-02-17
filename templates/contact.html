@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="contact-container">
+        <div class="contact-box">
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='images/email-07-512.webp') }}" alt="Contact Icon">
+            </div>
+            <h2>Contact Us</h2>
+            <p>We'd love to hear from you! Fill out the form below and we'll get back to you as soon as possible.</p>
+
+            <form action="/contact" method="POST">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+
+        /* Background Image */
+        body {
+            background: url("{{ url_for('static', filename='images/contactbg.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Centering the contact form like login & register pages */
+        .contact-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh; /* Keeps footer at bottom */
+        }
+
+        .contact-box {
+            margin-left: 600px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            max-width: 500px;
+            width: 500px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .image-container img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #6a11cb;
+            outline: none;
+            box-shadow: 0 0 8px rgba(106, 17, 203, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            transform: scale(1.05);
+        }
+    </style>
+{% endblock %}

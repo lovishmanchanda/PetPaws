@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="profile-header text-center mb-4">
+        <h2 class="fw-bold">Welcome, {{ user.name }}!</h2>
+        <p class="text-muted">Manage your profile and pets here.</p>
+    </div>
+
+    <div class="row">
+        <!-- User Profile Card -->
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0 p-3">
+                <div class="card-body text-center">
+                    <h4 class="fw-bold">{{ user.name }}</h4>
+                    <p class="text-muted mb-1"><i class="fas fa-envelope"></i> {{ user.email }}</p>
+                    <p class="text-muted mb-1"><i class="fas fa-phone"></i> {{ user.mobile }}</p>
+                    <p class="text-muted"><i class="fas fa-user-tag"></i> Role: {{ user.role }}</p>
+                    
+                    <a href="{{ url_for('edit_profile') }}" class="btn btn-warning btn-sm mt-2"><i class="fas fa-edit"></i> Edit Profile</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm mt-2"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- User's Pets Section -->
+        <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="fw-bold">Your Pets</h3>
+                <a href="{{ url_for('add_pet') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Pet</a>
+            </div>
+
+            {% if user.pets %}
+            <div class="row">
+                {% for pet in user.pets %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card pet-card shadow-sm border-0">
+                        <img src="{{ url_for('static', filename='images/' + (pet.image_filename or 'default.jpg')) }}" class="card-img-top pet-img" alt="{{ pet.name }}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">{{ pet.name }}</h5>
+                            <p class="card-text text-muted">{{ pet.description[:50] }}...</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
+                                <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this pet?')"><i class="fas fa-trash"></i> Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted">You haven't added any pets yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS for Profile Page -->
+<style>
+    .profile-header {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .card {
+        border-radius: 12px;
+    }
+    .pet-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .pet-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    .pet-img {
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+</style>
+{% endblock %}
