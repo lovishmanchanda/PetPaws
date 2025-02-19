@@ -81,7 +81,7 @@ with app.app_context():
             mobile="1234567890",
             role="admin"
         )
-        admin_user.set_password("admin123")  # Set a default password
+        admin_user.set_password("admin123") 
 
         db.session.add(admin_user)
         db.session.commit()
@@ -98,7 +98,7 @@ def pets():
     all_pets = Pet.query.all()
     return render_template("pets.html", pets=all_pets)
 
-
+# setting path for images
 UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), "static/images")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Ensure the directory exists
 
@@ -318,8 +318,17 @@ def adopt_pet(id):
 def about():
     return render_template("about.html")
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        message = request.form.get("message")
+
+        # Here, you can store the message in a database if needed
+
+        return redirect(url_for("index"))  # Redirects user to home page
+
     return render_template("contact.html")
 
 @app.route('/privacy')
