@@ -3,20 +3,168 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='petstyles.css') }}">
 
+<style>
+    /* 📌 Stylish Filter Bar */
+    .filter-container {
+        background: #ff6b6b;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+    }
+
+    .filter-container select,
+    .filter-container input {
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+        transition: all 0.3s ease-in-out;
+        background: white;
+    }
+
+    .filter-container select:focus,
+    .filter-container input:focus {
+        border: 2px solid #fff;
+        box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.5);
+    }
+
+    .filter-container button {
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        border: none;
+        color: white;
+    }
+
+    .apply-btn {
+        background: #28a745;
+    }
+
+    .apply-btn:hover {
+        background: #218838;
+    }
+
+    .reset-btn {
+        background: #3599dc;
+    }
+
+    .reset-btn:hover {
+        background: #c82333;
+    }
+
+    /* 📌 Pets Grid */
+    .pets-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        justify-items: center;
+    }
+
+    .pet-card {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease-in-out;
+        width: 280px;
+    }
+
+    .pet-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .pet-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .pet-card h5 {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #333;
+        margin-top: 10px;
+    }
+
+    /* 📌 Responsive Design */
+    @media (max-width: 768px) {
+        .filter-container {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .filter-container select,
+        .filter-container input {
+            width: 100%;
+        }
+    }
+</style>
+
 <div class="container my-5">
     <h2 class="text-center mb-4">🐾 Meet Your New Best Friend! 🐾</h2>
     <p class="text-center text-muted">Browse through our lovely pets and give them a forever home. ❤️</p>
 
+    <!-- Filters Section -->
+    <div class="filter-container">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <input type="text" id="searchPet" class="form-control" placeholder="🔍 Search by name or breed">
+            </div>
+            <div class="col-md-2">
+                <select id="filterType" class="form-select">
+                    <option value="">All Types</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Cat">Cat</option>
+                    <option value="Bird">Bird</option>
+                    <option value="Horse">Horse</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="filterAge" class="form-select">
+                    <option value="">All Ages</option>
+                    <option value="0-1">0-1 year</option>
+                    <option value="2-4">2-4 years</option>
+                    <option value="5+">5+ years</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="filterMedical" class="form-select">
+                    <option value="">Medical Issues</option>
+                    <option value="None">No Issues</option>
+                    <option value="Yes">Has Issues</option>
+                </select>
+            </div>
+            <div class="col-md-3 text-center">
+                <button onclick="filterPets()" class="apply-btn btn">Apply Filters</button>
+                <button onclick="resetFilters()" class="reset-btn btn">Reset</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Pets Grid -->
-    <div class="pets-container">
+    <div class="pets-container" id="petGrid">
         {% for pet in pets %}
-        <div class="pet-card">
+        <div class="pet-card" 
+             data-name="{{ pet.name.lower() }}" 
+             data-breed="{{ pet.breed.lower() }}" 
+             data-type="{{ pet.pet_type }}" 
+             data-age="{{ pet.age }}" 
+             data-medical="{{ pet.medical_issues }}">
+             
             <img src="{{ url_for('static', filename='images/' + pet.image_filename) }}" alt="{{ pet.name }}">
+            
             <div class="card-body">
                 <h5 class="pet-name">{{ pet.name }}</h5>
                 <p><strong>Breed:</strong> {{ pet.breed }}</p>
                 <p><strong>Age:</strong> {{ pet.age }} years</p>
-                <p><strong>Owner:</strong> {{ pet.owner.name }}</p>
+                <p><strong>Medical Issues:</strong> {{ pet.medical_issues if pet.medical_issues else "None" }}</p>
                 
                 <div class="button-group">
                     <a href="{{ url_for('pet_profile', id=pet.id) }}" class="btn btn-primary">View Profile</a>
@@ -29,5 +177,41 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+    function filterPets() {
+        let search = document.getElementById("searchPet").value.toLowerCase();
+        let type = document.getElementById("filterType").value;
+        let age = document.getElementById("filterAge").value;
+        let medical = document.getElementById("filterMedical").value;
+        let petCards = document.querySelectorAll(".pet-card");
+
+        petCards.forEach(card => {
+            let petName = card.dataset.name;
+            let petBreed = card.dataset.breed;
+            let petType = card.dataset.type;
+            let petAge = parseInt(card.dataset.age);
+            let petMedical = card.dataset.medical;
+
+            let matchesSearch = petName.includes(search) || petBreed.includes(search);
+            let matchesType = (type === "" || petType === type);
+            let matchesAge = (age === "" || 
+                              (age === "0-1" && petAge <= 1) || 
+                              (age === "2-4" && petAge >= 2 && petAge <= 4) || 
+                              (age === "5+" && petAge >= 5));
+            let matchesMedical = (medical === "" || petMedical === medical);
+
+            card.style.display = (matchesSearch && matchesType && matchesAge && matchesMedical) ? "block" : "none";
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById("searchPet").value = "";
+        document.getElementById("filterType").value = "";
+        document.getElementById("filterAge").value = "";
+        document.getElementById("filterMedical").value = "";
+        filterPets(); // Reset filtering
+    }
+</script>
 
 {% endblock %}

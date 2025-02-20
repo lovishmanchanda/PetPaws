@@ -1,53 +1,119 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+    /* Dashboard Styling */
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 30px;
+        background: linear-gradient(to right, #007bff, #6610f2);
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .dashboard-header h2 {
+        font-size: 2.8rem;
+        font-weight: bold;
+    }
+
+    .dashboard-header p {
+        font-size: 1.2rem;
+    }
+
+    /* Dashboard Cards */
+    .dashboard-card {
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        color: white;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .dashboard-card i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+
+    .users-card { background: linear-gradient(to right, #17a2b8, #007bff); }
+    .pets-card { background: linear-gradient(to right, #ffc107, #fd7e14); }
+    .reports-card { background: linear-gradient(to right, #28a745, #20c997); }
+    .settings-card { background: linear-gradient(to right, #6610f2, #6f42c1); }
+    .home-card { background: linear-gradient(to right, #dc3545, #c82333); }
+
+    .dashboard-card a {
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 15px;
+        padding: 8px 15px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        transition: background 0.3s ease-in-out;
+    }
+
+    .dashboard-card a:hover {
+        background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+        .dashboard-header h2 {
+            font-size: 2.2rem;
+        }
+        .dashboard-card {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
 <div class="container mt-5">
     <!-- Dashboard Header -->
-    <div class="text-center mb-4">
-        <h2 class="display-4 text-primary">Admin Dashboard</h2>
-        <p class="lead">Welcome, {{ current_user.name }}! Manage users, pets, and settings here.</p>
+    <div class="dashboard-header">
+        <h2>Welcome, {{ current_user.name }}!</h2>
+        <p class="lead">Manage users, pets, analytics, and settings from here.</p>
     </div>
 
-    <!-- Dashboard Actions Row -->
-    <div class="row text-center">
+    <!-- Dashboard Cards -->
+    <div class="row g-4">
         
-        <!-- Manage Users Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <i class="fas fa-users fa-3x text-primary"></i>
-                    <h4 class="card-title mt-3">Manage Users</h4>
-                    <p class="card-text">View and manage all registered users on the platform.</p>
-                    <a href="{{ url_for('manage_users') }}" class="btn btn-primary btn-lg w-100">Manage Users</a>
-                </div>
+        <!-- Manage Users -->
+        <div class="col-md-4">
+            <div class="dashboard-card users-card">
+                <i class="fas fa-users"></i>
+                <h4>Manage Users</h4>
+                <p>View and manage all registered users.</p>
+                <a href="{{ url_for('manage_users') }}">Go to Users</a>
             </div>
         </div>
         
-        <!-- Manage Pets Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <i class="fas fa-paw fa-3x text-warning"></i>
-                    <h4 class="card-title mt-3">Manage Pets</h4>
-                    <p class="card-text">Review and edit pet listings, adoption statuses, and more.</p>
-                    <a href="{{ url_for('manage_pets') }}" class="btn btn-warning btn-lg w-100">Manage Pets</a>
-                </div>
+        <!-- Manage Pets -->
+        <div class="col-md-4">
+            <div class="dashboard-card pets-card">
+                <i class="fas fa-paw"></i>
+                <h4>Manage Pets</h4>
+                <p>Review, edit pet listings & adoption requests.</p>
+                <a href="{{ url_for('manage_pets') }}">Go to Pets</a>
+            </div>
+        </div>
+        
+        <!-- Back to Home -->
+        <div class="col-md-4">
+            <div class="dashboard-card home-card">
+                <i class="fas fa-home"></i>
+                <h4>Back to Home</h4>
+                <p>Return to the main website.</p>
+                <a href="{{ url_for('index') }}">Go to Home</a>
             </div>
         </div>
 
-        <!-- Back to Home Card -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <i class="fas fa-home fa-3x text-success"></i>
-                    <h4 class="card-title mt-3">Back to Home</h4>
-                    <p class="card-text">Return to the main site to explore more features.</p>
-                    <a href="{{ url_for('index') }}" class="btn btn-success btn-lg w-100">Back to Home</a>
-                </div>
-            </div>
-        </div>
-        
     </div>
-
 </div>
 {% endblock %}

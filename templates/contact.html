@@ -7,48 +7,54 @@
                 <img src="{{ url_for('static', filename='images/email-07-512.webp') }}" alt="Contact Icon">
             </div>
             <h2>Contact Us</h2>
-            <p>We'd love to hear from you! Fill out the form below and we'll get back to you as soon as possible.</p>
+            <p>We'd love to hear from you! Fill out the form below and we'll get back to you soon.</p>
 
             <form action="/contact" method="POST">
                 <div class="form-group">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                    </div>
                 </div>
+
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
                 </div>
+
                 <div class="form-group">
                     <label for="message">Message:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
+                    <textarea id="message" name="message" rows="5" placeholder="Write your message..." required></textarea>
                 </div>
-                <button type="submit">Send Message</button>
+
+                <button type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
             </form>
         </div>
     </div>
 
     <style>
-
         /* Background Image */
         body {
             background: url("{{ url_for('static', filename='images/contactbg.jpg') }}") no-repeat center center fixed;
             background-size: cover;
         }
 
-        /* Centering the contact form like login & register pages */
+        /* Centering the contact form */
         .contact-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 80vh; /* Keeps footer at bottom */
+            min-height: 90vh; 
+            padding: 20px;
         }
 
         .contact-box {
-            margin-left: 600px;
-            margin-top: 50px;
-            margin-bottom: 50px;
+            width: 90%;
             max-width: 500px;
-            width: 500px;
             background: #fff;
             padding: 30px;
             border-radius: 12px;
@@ -81,12 +87,25 @@
             margin-bottom: 5px;
         }
 
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
         input, textarea {
             width: 100%;
-            padding: 10px;
+            padding: 10px 10px 10px 40px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
+            transition: 0.3s;
         }
 
         input:focus, textarea:focus {
@@ -97,7 +116,7 @@
 
         button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: linear-gradient(to right, #6a11cb, #2575fc);
             color: #fff;
             font-size: 18px;
@@ -105,12 +124,23 @@
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         button:hover {
             background: linear-gradient(to right, #2575fc, #6a11cb);
             transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .contact-box {
+                padding: 20px;
+            }
         }
     </style>
 {% endblock %}
