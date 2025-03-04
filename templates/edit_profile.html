@@ -2,28 +2,149 @@
 
 {% block content %}
 <div class="container my-5">
-    <div class="card shadow-lg p-4 mx-auto" style="max-width: 500px;">
-        <h2 class="text-center text-primary mb-4"><i class="fas fa-user-edit"></i> Edit Profile</h2>
+    <div class="card shadow-lg p-4 mx-auto" style="max-width: 500px;" data-aos="fade-up">
+        <h2 class="text-center mb-4"><i class="fas fa-user-edit me-2"></i> Edit Profile</h2>
 
         <form method="POST">
             <!-- Name Field -->
             <div class="mb-3">
-                <label for="name" class="form-label"><i class="fas fa-user"></i> Full Name</label>
-                <input type="text" class="form-control" name="name" value="{{ user.name }}" required>
+                <label for="name" class="form-label"><i class="fas fa-user me-2"></i> Full Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" required>
             </div>
 
             <!-- Mobile Field -->
             <div class="mb-3">
-                <label for="mobile" class="form-label"><i class="fas fa-phone"></i> Mobile Number</label>
-                <input type="text" class="form-control" name="mobile" value="{{ user.mobile }}" required>
+                <label for="mobile" class="form-label"><i class="fas fa-phone me-2"></i> Mobile Number</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" value="{{ user.mobile }}" required>
             </div>
 
             <!-- Buttons -->
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save"></i> Update</button>
-                <a href="{{ url_for('profile') }}" class="btn btn-secondary px-4"><i class="fas fa-times"></i> Cancel</a>
+            <div class="text-center mt-4 d-flex justify-content-center gap-3">
+                <button type="submit" class="btn btn-submit px-4"><i class="fas fa-save me-2"></i> Update</button>
+                <a href="{{ url_for('profile') }}" class="btn btn-cancel px-4"><i class="fas fa-times me-2"></i> Cancel</a>
             </div>
         </form>
     </div>
 </div>
+
+<!-- AOS Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true,
+    });
+</script>
+
+<style>
+    /* Container */
+    .container {
+        max-width: 1200px; /* Consistent with other pages */
+    }
+
+    .card {
+        border-radius: 15px;
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    h2 {
+        color: #ff6f61; /* Coral instead of primary blue */
+        font-weight: 600;
+    }
+
+    /* Form Styling */
+    .form-label {
+        color: #5a4e4e; /* Warm brown */
+        font-weight: 500;
+    }
+
+    .form-label i {
+        color: #ff6f61; /* Coral icons */
+    }
+
+    .form-control {
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #ff6f61;
+        box-shadow: 0 0 8px rgba(255, 107, 97, 0.3);
+        outline: none;
+    }
+
+    /* Buttons */
+    .btn-submit {
+        background: #ff6f61; /* Coral instead of primary blue */
+        border: none;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: 500;
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background: #ff8a75; /* Lighter coral */
+        transform: scale(1.05);
+    }
+
+    .btn-cancel {
+        background: #fff;
+        border: 2px solid #ff4757; /* Red outline */
+        color: #ff4757;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cancel:hover {
+        background: #ff4757;
+        color: #fff;
+        transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .card {
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+        }
+
+        .d-flex {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        .form-control {
+            font-size: 0.9rem;
+            padding: 8px;
+        }
+
+        .btn-submit, .btn-cancel {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
 {% endblock %}

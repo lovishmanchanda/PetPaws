@@ -4,22 +4,22 @@
 <div class="container my-5">
     <h2 class="text-center mb-4 wishlist-title">🐾 My Wishlist 🐾</h2>
     {% if pets %}
-        <div class="row justify-content-center">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
             {% for pet in pets %}
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                    <div class="card pet-card shadow-lg">
+                <div class="col">
+                    <div class="card pet-card shadow-sm border-0">
                         <img src="{{ url_for('static', filename='images/' + (pet.image_filename if pet.image_filename else 'default.jpg')) }}" 
-                             class="card-img-top pet-image" alt="Pet Image">
+                             class="card-img-top pet-image" alt="{{ pet.name }}">
                         <div class="card-body text-center">
                             <h5 class="card-title">{{ pet.name }}</h5>
                             <p class="card-text">{{ pet.breed }} - {{ pet.age }} years old</p>
-                            
-                            <!-- Buttons -->
-                            <div class="d-flex justify-content-around">
+                            <div class="d-flex justify-content-center gap-2">
                                 <a href="{{ url_for('pet_profile', id=pet.id) }}" class="btn btn-primary btn-view">
-                                    <i class="fas fa-eye"></i> View Profile
+                                    <i class="fas fa-eye me-1"></i> View Profile
                                 </a>                                
-                                <a href="{{ url_for('remove_from_wishlist', pet_id=pet.id) }}" class="btn btn-danger btn-remove"><i class="fas fa-trash"></i> Remove</a>
+                                <a href="{{ url_for('remove_from_wishlist', pet_id=pet.id) }}" class="btn btn-danger btn-remove">
+                                    <i class="fas fa-trash me-1"></i> Remove
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -27,45 +27,150 @@
             {% endfor %}
         </div>
     {% else %}
-        <p class="text-center">No pets in your wishlist yet. Start adding some furry friends! 🐶🐱</p>
+        <p class="text-center text-muted">No pets in your wishlist yet. Start adding some furry friends! 🐶🐱</p>
     {% endif %}
 </div>
 
 <style>
+    /* Wishlist Title */
     .wishlist-title {
-        font-family: 'Pacifico', cursive;
+        font-family: 'Poppins', sans-serif; /* Matches base theme */
         font-size: 2.5rem;
-        color: #ff5733;
+        font-weight: 700;
+        color: #ff6f61; /* Coral for consistency */
+        animation: fadeInDown 1s ease;
     }
+
+    /* Pet Card */
     .pet-card {
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        background: #fff;
         border-radius: 15px;
         overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fadeInUp 0.5s ease;
     }
+
     .pet-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-8px); /* Subtle lift */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
+
     .pet-image {
-        height: 250px;
+        height: 200px; /* Reduced for compactness */
         object-fit: cover;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
+        transition: transform 0.3s ease;
     }
+
+    .pet-card:hover .pet-image {
+        transform: scale(1.05); /* Slight zoom on hover */
+    }
+
+    .card-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #ff6f61; /* Coral for pet names */
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+        color: #777;
+        margin-bottom: 15px;
+    }
+
+    /* Buttons */
     .btn-view {
-        background-color: #007bff;
+        background: #ff6f61; /* Coral for consistency */
         border: none;
-        transition: all 0.3s ease-in-out;
+        border-radius: 20px;
+        padding: 8px 15px;
+        font-weight: 500;
+        transition: all 0.3s ease;
     }
+
     .btn-view:hover {
-        background-color: #0056b3;
+        background: #ff8a75; /* Lighter coral */
+        transform: scale(1.05);
     }
+
     .btn-remove {
-        transition: background-color 0.3s ease-in-out;
+        background: #ff4757; /* Red for remove */
+        border: none;
+        border-radius: 20px;
+        padding: 8px 15px;
+        font-weight: 500;
+        transition: all 0.3s ease;
     }
+
     .btn-remove:hover {
-        background-color: #c82333;
+        background: #ff6b6b; /* Lighter red */
+        transform: scale(1.05);
+    }
+
+    /* No Pets Message */
+    .text-muted {
+        color: #5a4e4e !important;
+        font-size: 1.1rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+        .wishlist-title {
+            font-size: 2rem;
+        }
+
+        .pet-image {
+            height: 180px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+        }
+
+        .card-text {
+            font-size: 0.85rem;
+        }
+
+        .btn-view, .btn-remove {
+            padding: 6px 12px;
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .wishlist-title {
+            font-size: 1.8rem;
+        }
+
+        .pet-image {
+            height: 160px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+        }
+
+        .card-text {
+            font-size: 0.8rem;
+        }
+
+        .btn-view, .btn-remove {
+            padding: 5px 10px;
+            font-size: 0.85rem;
+        }
     }
 </style>
-
 {% endblock %}
