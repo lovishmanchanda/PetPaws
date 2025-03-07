@@ -1,24 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='petstyles.css') }}">
-
-<div class="container mt-5">
-    <div class="row">
+<div class="container mt-5 mb-5">
+    <div class="row" data-aos="fade-up">
         <!-- Pet Image Section -->
-        <div class="col-lg-6 text-center">
-            <img src="{{ url_for('static', filename='images/' + pet.image_filename) }}" class="img-fluid rounded shadow-lg pet-profile-img" alt="{{ pet.name }}">
+        <div class="col-lg-6 text-center mb-4 mb-lg-0">
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='images/' + (pet.image_filename if pet.image_filename else 'default_pet.jpg')) }}" 
+                     class="pet-profile-img" alt="{{ pet.name }}" data-aos="zoom-in" data-aos-delay="100">
+            </div>
         </div>
 
         <!-- Pet Details Section -->
         <div class="col-lg-6">
-            <h2 class="fw-bold text-primary">{{ pet.name }}</h2>
-            <p class="text-muted"><i class="fas fa-paw"></i> <strong>Breed:</strong> {{ pet.breed }}</p>
-            <p><i class="fas fa-birthday-cake"></i> <strong>Age:</strong> {{ pet.age }} years</p>
-            <p><i class="fas fa-user"></i> <strong>Owner:</strong> {{ pet.owner.name }}</p>
-            <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ pet.address }}</p>
-            <p><i class="fas fa-notes-medical"></i> <strong>Medical Issues:</strong> {{ pet.medical_issues if pet.medical_issues else "None" }}</p>
-            <p><i class="fas fa-info-circle"></i> <strong>Description:</strong> {{ pet.description }}</p>
+            <h2 class="fw-bold">{{ pet.name }}</h2>
+            <p class="text-muted"><i class="fas fa-paw me-2"></i> <strong>Breed:</strong> {{ pet.breed }}</p>
+            <p><i class="fas fa-birthday-cake me-2"></i> <strong>Age:</strong> {{ pet.age }} years</p>
+            <p><i class="fas fa-user me-2"></i> <strong>Owner:</strong> {{ pet.owner.name }}</p>
+            <p><i class="fas fa-map-marker-alt me-2"></i> <strong>Location:</strong> {{ pet.address }}</p>
+            <p><i class="fas fa-notes-medical me-2"></i> <strong>Medical Issues:</strong> {{ pet.medical_issues if pet.medical_issues else "None" }}</p>
+            <p><i class="fas fa-info-circle me-2"></i> <strong>Description:</strong> {{ pet.description }}</p>
 
             <!-- Pet Status Badge -->
             <p><strong>Status:</strong> 
@@ -29,24 +30,199 @@
 
             <!-- Owner Actions -->
             {% if current_user.id == pet.owner_id %}
-                <div class="mt-3">
-                    <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
-                    <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this pet?');">
-                        <i class="fas fa-trash"></i> Delete
+                <div class="mt-4 d-flex gap-3">
+                    <a href="{{ url_for('edit_pet', id=pet.id) }}" class="btn btn-edit"><i class="fas fa-edit me-2"></i> Edit</a>
+                    <a href="{{ url_for('delete_pet', id=pet.id) }}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this pet?');">
+                        <i class="fas fa-trash me-2"></i> Delete
                     </a>
                 </div>
             {% else %}
                 <!-- Non-owner Actions -->
-                <div class="mt-3">
+                <div class="mt-4 d-flex gap-3">
                     <form action="{{ url_for('adopt_pet', id=pet.id) }}" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-heart"></i> Adopt</button>
+                        <button type="submit" class="btn btn-adopt"><i class="fas fa-heart me-2"></i> Adopt</button>
                     </form>
-                    <a href="{{ url_for('add_to_wishlist', pet_id=pet.id) }}" class="btn btn-outline-info">
-                        <i class="fas fa-star"></i> Add to Wishlist
+                    <a href="{{ url_for('add_to_wishlist', pet_id=pet.id) }}" class="btn btn-wishlist">
+                        <i class="fas fa-star me-2"></i> Add to Wishlist
                     </a>
                 </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<!-- AOS Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true,
+    });
+</script>
+
+<style>
+    /* Container */
+    .container {
+        max-width: 1200px;
+    }
+
+    /* Pet Image */
+    .image-container {
+        position: relative;
+        width: 100%;
+        max-width: 400px; /* Fixed max width */
+        margin: 0 auto; /* Center the container */
+    }
+
+    .pet-profile-img {
+        width: 100%;
+        height: 400px; /* Fixed height */
+        object-fit: cover; /* Maintain aspect ratio, crop if needed */
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .pet-profile-img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Pet Details */
+    h2 {
+        color: #ff6f61; /* Coral */
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    p {
+        color: #777;
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    p i {
+        color: #ff6f61; /* Coral icons */
+    }
+
+    .text-muted {
+        color: #5a4e4e !important; /* Warm brown */
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+
+    /* Buttons */
+    .btn-edit {
+        background: #ffc107; /* Yellow for edit */
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-weight: 500;
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .btn-edit:hover {
+        background: #ffca2c;
+        transform: scale(1.05);
+    }
+
+    .btn-delete {
+        background: #ff4757; /* Red for delete */
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-weight: 500;
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .btn-delete:hover {
+        background: #ff6b6b;
+        transform: scale(1.05);
+    }
+
+    .btn-adopt {
+        background: #28a745; /* Green for adopt */
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-weight: 500;
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .btn-adopt:hover {
+        background: #218838;
+        transform: scale(1.05);
+    }
+
+    .btn-wishlist {
+        background: #fff;
+        border: 2px solid #ff6f61; /* Coral outline */
+        color: #ff6f61;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-wishlist:hover {
+        background: #ff6f61;
+        color: #fff;
+        transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .row {
+            flex-direction: column;
+        }
+
+        .image-container {
+            max-width: 300px; /* Smaller on tablets */
+        }
+
+        .pet-profile-img {
+            height: 300px; /* Adjust height for smaller screens */
+        }
+
+        h2 {
+            font-size: 1.8rem;
+        }
+
+        .d-flex {
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .image-container {
+            max-width: 250px; /* Even smaller on mobile */
+        }
+
+        .pet-profile-img {
+            height: 250px; /* Further reduced height */
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+
+        .btn-edit, .btn-delete, .btn-adopt, .btn-wishlist {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
 {% endblock %}
