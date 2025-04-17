@@ -2,4 +2,3 @@ flask
 flask-login
 flask-bcrypt
 flask-sqlalchemy
-gunicorn
